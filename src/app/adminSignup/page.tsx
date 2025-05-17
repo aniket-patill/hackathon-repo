@@ -49,7 +49,7 @@ export default function adminSignupPage() {
       const response = await axios.post("/api/users/adminSignup", user);
       // console.log("signup response", response.data);
       toast.success("Signup successful!");
-      router.push("/login");
+      router.push("/adminLogin");
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Signup failed");
       // console.log("signup failed", error.message);
@@ -58,9 +58,7 @@ export default function adminSignupPage() {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
@@ -70,62 +68,84 @@ export default function adminSignupPage() {
 
   return (
     <>
-      <form
-        className="flex flex-col items-center justify-center min-h-screen py-2"
-        onSubmit={handleSubmit}
-      >
-        <h1>{isLoading ? "Processing" : "Signup"}</h1>
-        <hr />
-
-        <label className="block mb-2" htmlFor="username">
-          Username
-        </label>
-        <input
-          className="p-2 border bg-amber-50 text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-          type="text"
-          name="username"
-          id="username"
-          placeholder="Username"
-          value={user.username}
-          onChange={handleChange}
-        />
-
-        <label className="block mb-2" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="p-2 border bg-amber-50 text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          value={user.email}
-          onChange={handleChange}
-        />
-        <label className="block mb-2" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={handleChange}
-        />
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-100 disabled:opacity-50"
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-800 to-gray-700 animate-gradient-x px-4">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white"
         >
-          {buttonText ? "Signup" : "Fill Values Please"}
-        </button>
+          <h1 className="text-3xl font-bold text-white text-center mb-6">
+            {isLoading ? "Processing..." : "Admin Signup"}
+          </h1>
 
-        <Link href="/login" className="mt-4">
-          Visit login page
-        </Link>
-      </form>
+          <label
+            htmlFor="username"
+            className="block text-white font-semibold mb-1"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter your username"
+            value={user.username}
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 rounded-lg bg-white/80 text-black placeholder-gray-600 border border-white focus:outline-none focus:ring-2 focus:ring-white"
+          />
+
+          <label
+            htmlFor="email"
+            className="block text-white font-semibold mb-1"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="you@example.com"
+            value={user.email}
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 rounded-lg bg-white/80 text-black placeholder-gray-600 border border-white focus:outline-none focus:ring-2 focus:ring-white"
+          />
+
+          <label
+            htmlFor="password"
+            className="block text-white font-semibold mb-1"
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            value={user.password}
+            onChange={handleChange}
+            className="w-full mb-6 px-4 py-2 rounded-lg bg-white/80 text-black placeholder-gray-600 border border-white focus:outline-none focus:ring-2 focus:ring-white"
+          />
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full bg-white text-black font-semibold py-3 rounded-lg shadow-md transition-all duration-300 ${
+              isLoading
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-black hover:text-white hover:shadow-lg"
+            }`}
+          >
+            {buttonText ? "Signup" : "Fill Values Please"}
+          </button>
+
+          <p className="text-center text-white mt-4">
+            Already have an account?{" "}
+            <Link href="/adminLogin" className="underline hover:text-gray-300">
+              Login here
+            </Link>
+          </p>
+        </form>
+      </div>
+
       <Toaster
         position="bottom-center"
         toastOptions={{

@@ -14,7 +14,9 @@ export default function LoginPage() {
     password: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
@@ -35,10 +37,10 @@ export default function LoginPage() {
 
       const response = await axios.post("/api/users/login", user);
       // console.log("login response", response.data);
-      
+
       toast.success("Login successful!");
-      // router.push(`/profile/${response.data.user.username}`);
-      router.push("/profile");
+      // router.push(/profile/${response.data.user.username});
+      router.push("/facultyDashboard");
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Login failed");
     } finally {
@@ -47,15 +49,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
-      <div className="w-full max-w-md rounded-lg p-8">
-        <h1 className="mb-6 text-center text-2xl font-bold">
-          {isLoading ? "Processing..." : "Login"}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-800 to-gray-700 animate-gradient-x px-4">
+      <div className="w-full max-w-md rounded-2xl bg-white/10 backdrop-blur-lg p-8 shadow-2xl border border-white">
+        <h1 className="mb-6 text-center text-3xl font-bold text-white">
+          {isLoading ? "Processing..." : "Faculty Login"}
         </h1>
 
         <form onSubmit={onLogin} className="space-y-6">
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-white"
+            >
               Email
             </label>
             <input
@@ -66,38 +71,49 @@ export default function LoginPage() {
               value={user.email}
               onChange={handleChange}
               disabled={isLoading}
-              className="w-full rounded-lg border border-gray-300 bg-amber-50 p-2 text-black focus:border-gray-600 focus:outline-none"
+              className="w-full rounded-lg border border-white bg-white/80 p-2 text-black placeholder-gray-600 focus:border-white focus:outline-none"
               placeholder="Enter your email"
             />
           </div>
-          <label className="block mb-2" htmlFor="department">
-            Department
-          </label>
-          <select
-            className="p-2 border bg-amber-50 text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-            name="department"
-            id="department"
-            value={user.department}
-            onChange={handleChange}
-          >
-            <option value="">Select Department</option>
-            <option value="Computer Science">Computer Science</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Mechanical">Mechanical</option>
-            <option value="Civil">Civil</option>
-            <option value="Electrical">Electrical</option>
-          </select>
-          
+
           <div className="space-y-2">
-            <label htmlFor="password" className="block text-sm font-medium">
+            <label
+              htmlFor="department"
+              className="block text-sm font-medium text-white"
+            >
+              Department
+            </label>
+            <select
+              name="department"
+              id="department"
+              value={user.department}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-white bg-white/80 p-2 text-black placeholder-gray-600 focus:border-white focus:outline-none"
+            >
+              <option value="">Select Department</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Mechanical">Mechanical</option>
+              <option value="Civil">Civil</option>
+              <option value="Electrical">Electrical</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-white"
+            >
               Password
             </label>
-            <Link
-              href="/forgotPassMail"
-              className="text-sm text-gray-500 hover:underline transition duration-300"
-            >
-              <span className="hover:text-gray-700">Forgot Password?</span>
-            </Link>
+            <div className="flex justify-between items-center">
+              <Link
+                href="/forgotPassMail"
+                className="text-sm text-gray-300 hover:text-white hover:underline transition duration-300"
+              >
+                Forgot Password?
+              </Link>
+            </div>
             <input
               id="password"
               name="password"
@@ -106,19 +122,25 @@ export default function LoginPage() {
               value={user.password}
               onChange={handleChange}
               disabled={isLoading}
-              className="w-full rounded-lg border border-gray-300 p-2 focus:border-gray-600 focus:outline-none"
+              className="w-full rounded-lg border border-white bg-white/80 p-2 text-black placeholder-gray-600 focus:border-white focus:outline-none"
               placeholder="Enter your password"
             />
           </div>
+
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-white px-4 py-2 text-black transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className={`w-full bg-white text-black font-semibold py-2 rounded-lg shadow-md transition-all duration-300 ${
+              isLoading
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-black hover:text-white hover:shadow-lg"
+            }`}
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>
+
           <div className="text-center">
-            <Link href="/signup" className="text-sm hover:underline">
+            <Link href="/signup" className="text-sm text-white hover:underline">
               Don&apos;t have an account? Sign up
             </Link>
           </div>
@@ -139,5 +161,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-

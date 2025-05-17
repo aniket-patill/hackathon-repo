@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     await user.save();
 
     return NextResponse.json(
-      { message: "Password reset successfully" },
+      { message: "Password reset successfully", userType },
       { status: 200 }
     );
   } catch (error: any) {
